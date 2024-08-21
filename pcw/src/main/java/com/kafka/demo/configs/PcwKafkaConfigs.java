@@ -1,5 +1,6 @@
 package com.kafka.demo.configs;
 
+import com.kafka.demo.constants.ConfigConstants;
 import com.kafka.demo.dtos.Price;
 import com.kafka.demo.dtos.Quote;
 import org.apache.kafka.clients.admin.NewTopic;
@@ -25,7 +26,9 @@ public class PcwKafkaConfigs {
 
     @Bean
     public NewTopic createTopic() {
-        return TopicBuilder.name("quote").build();
+        return TopicBuilder.name(ConfigConstants.REQUEST_TOPIC_NAME)
+                .partitions(ConfigConstants.REQUEST_TOPIC_PARTITION_COUNT)
+                .build();
     }
 
     @Bean
@@ -40,7 +43,7 @@ public class PcwKafkaConfigs {
 
     @Bean
     public KafkaMessageListenerContainer<String, Price> replyContainer(ConsumerFactory<String, Price> consumerFactory) {
-        ContainerProperties containerProperties = new ContainerProperties("price");
+        ContainerProperties containerProperties = new ContainerProperties(ConfigConstants.REPLY_TOPIC_NAME);
         return new KafkaMessageListenerContainer<>(consumerFactory, containerProperties);
     }
 
@@ -52,9 +55,10 @@ public class PcwKafkaConfigs {
     @Bean
     public Map<String, Object> producerConfigs() {
         Map<String, Object> props = new HashMap<>();
-        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, ConfigConstants.KAFKA_PORT);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+        props.put(ProducerConfig.PARTITIONER_CLASS_CONFIG, ConfigConstants.ROUND_ROBIN_PARTITIONER_CLASS);
         return props;
     }
 }

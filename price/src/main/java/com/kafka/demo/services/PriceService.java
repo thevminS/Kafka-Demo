@@ -17,7 +17,7 @@ import java.util.Random;
 @Slf4j
 public class PriceService {
 
-    @KafkaListener(topics = "quote", groupId = "quoteGroup")
+    @KafkaListener(topics = "quote", groupId = "quoteGroup", concurrency = "500")
     @SendTo("price")
     public Price handleQuote(Quote quote) throws InterruptedException {
         log.info("Quote in price : {}", quote);

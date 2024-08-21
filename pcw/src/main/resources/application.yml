@@ -5,13 +5,13 @@ spring:
     name: pcw
   kafka:
     producer:
-      bootstrap-servers: localhost:9092
+      bootstrap-servers: 192.168.1.35:9092
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       # value-serializer: org.apache.kafka.common.serialization.StringSerializer
 
     consumer:
-      bootstrap-servers: localhost:9092
+      bootstrap-servers: 192.168.1.35:9092
       group-id: priceGroup
       auto-offset-rest: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
