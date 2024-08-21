@@ -9,7 +9,9 @@ import org.springframework.kafka.config.TopicBuilder;
 public class PriceKafkaConfig {
 
     @Bean
-    public NewTopic createTopic(){
+    public NewTopic createTopic() {
         return TopicBuilder.name("price").build();
     }
+
+
 }
